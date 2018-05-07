@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.0/lux/bootstrap.min.css" rel="stylesheet" integrity="sha384-mDdzqEimigFhaXpqHTnkj2JumLRbFB9qEVJK77zv7lBrdvhyPgl0WaWE7jloVkek" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/reset.css" />
+  </head>
+  <body>
+
+
+
+    <!--Intro Page of the Analysis-->
+    <div id="slide1">
+      <div style="position: absolute; left:-200px; top:-10px; width: 100%; height: 100%">
+        <iframe frameborder="0" height="120%" width="120%" src="https://youtube.com/embed/zURnAjb3hwA?autoplay=1&controls=0&showinfo=0&autohide=1&mute=1"></iframe>
+      </div>
+        <img src="image/indegologo.png" alt="Indego" style="z-index:300000; position:fixed; width:190px;height:27px; left:300px; top:40px" onclick="reShowIntro()">
+        <br><br><br><br>
+        <div class="analytical1" id="analytical1">
+          <p style="font-size:30px;text-align:center；top:20px;Color:Black;">Tracking Indego's 2017Q4 Bike Share Data</p><br><br>
+          <p style="color:black;font-size:14px;">
+            Believe it or not, innercity bike share is becoming a trendy transportation among Americans.<br>
+            In the past years, Philadelphia has constructed bundreds of bike share stations in public spaces<br>
+            that are accessible to citizens and tourists.According to the data we used in this project, there <br>
+            are over 200,000 trips that used shared bikes in a single season, which helps reudece energy and transportation burden<br>
+            of the whole city and also envision a greener lifestyle of modern city life led by green transportation.<br>
+            Thus we used the data from Indego bike trips to see how trips distributed, which stations were popular,<br>
+            which station has a smaller use of oneway trips, which means users were more likely to be tourist.<br>
+            Also, we offer an extra function to direct people to the station they click as an interaction.<br>
+            Our data is only 2017 season 4, but this project can be expanded easily and our code can be treated as a demo.<br>
+            <p>
+          <div class="btn-group" role="group" aria-label="Basic example" style="  left: 40px;  top: 100px;">
+            <button type="button" class="btn btn-secondary" onclick="changeSildes()">View Data in the Map</button>
+            <button type="button" class="btn btn-secondary" title="click the top logo to reshow the intro" onclick="seeVideo()">Hide Intro to See Video</button>
+          </div>
+        </div>
+        <div id="source">
+          <p style="font-size: 10px; color: white;">The data we use is from official Indego data. Part of the functions are used from CartoDB and Leaflet. Model and project contributed by FangnanDu and KefanLong
+          </p>
+        </div>
+    </div>
+
+
+    <!--Map View from this line.-->
+    <div id="slide2">
+      <nav class="navbar navbar-expand navbar-dark bg-primary" style="height:50px;">
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="Animation" href="#">Cyclist Animation in a Day</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="info" href="#">Station-Based Summary</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="maps" href="#">Stats-Driven Analysis</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="route" href="#">Route</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="backtoHome()">Return to Home</a>
+            </li>
+          </ul>
+          <img src="image/indegologo.png" alt="Indego" style="position:fixed; width:197px;height:27px; right:10px;">
+        </div>
+      </nav>
+      <!-- interactive bar -->
+      <div class="intsidebar" >
+        <!-- theme maps choose bar-->
+        <div class="subdiv" id="maps-page" style="padding:10px;" >
+          <div class="barTitle" style="height:80px; padding: 10px;z-index:1001;">
+            <h3 style="color:antiquewhite; vertical-align:middle">Explore Any Theme</h3>
+          </div>
+          <ul class="nav nav-pills nav-stacked" id="mapsChoice" style="margin-top: 20px">
+            <li role="presentation" id="mapsChoice1" style="margin-bottom:5px; margin-left:20px; margin-right:20px"><a href="#">Station Popularity</a></li>
+            <li role="presentation" id="mapsChoice2" style="margin-bottom:5px; margin-left:20px; margin-right:20px"><a href="#">Departure Count Trips</a></li>
+            <li role="presentation" id="mapsChoice3" style="margin-bottom:5px; margin-left:20px; margin-right:20px"><a href="#">Arrival Count Trips</a></li>
+            <li role="presentation" id="mapsChoice4" style="margin-bottom:5px; margin-left:20px; margin-right:20px"><a href="#">Oneway Trip Ratio</a></li>
+          </ul>
+        </div>
+
+      <!-- Station Stats Summary Map-->
+      <!-- Create Empty Placeholders to place all informations-->
+      <!--Station Name-->
+      <div class="subdiv" id="stationInfo" style="padding:10px;">
+        <div class="barTitle" style="height:80px; padding: 10px;z-index:1001;">
+          <h3 style="color:antiquewhite; vertical-align:middle">Staiton STats Summary</h3>
+          <p style=“color:white;”>Click an Indego Station to see what is going to happen.</p>
+        </div>
+        <div class="subBar">
+          <div clas="subdiv" id="basicInfo" style="margin-bottom:15px">
+            <h5>Station Info</h5>
+            <div class="input-group">
+              <input id="station_id" type="text"
+                     class="form-control"
+                     placeholder="Station ID"
+                     disabled>
+              <input id="station_name" type="text"
+                    class="form-control"
+                    placeholder="Address"
+                    disabled>
+            </div>
+          </div>
+          <!--basic count for each station-->
+          <div class="subdiv" id="indivStats">
+            <div class="titleSelection" id="rideStats"><h5>Popularity Analysis</h4></div>
+            <div class="input-group" id="info1" >
+               <input id="total_num_rides" type="text"
+                      class="form-control"
+                      placeholder="Total Number of Rides"
+                      disabled>
+                <input id="startcount" type="text"
+                       class="form-control"
+                       placeholder="Share of All Indego Rides"
+                       disabled>
+                <input id="end_count" type="text"
+                       class="form-control"
+                       placeholder="Arrival Num Rides"
+                       disabled>
+                 <input id="onewaycount" type="text"
+                        class="form-control"
+                        placeholder="Oneway Num Rides"
+                        disabled>
+                <input id="roundwaycount" type="text"
+                       class="form-control"
+                       placeholder="Rounndway Num Rides"
+                       disabled>
+            </div>
+          </div>
+          <div class="subdiv" id="indivStats">
+            <div class="titleSelection" id="rideStats"><h5>Ratio Analysis</h4></div>
+            <div class="input-group" id="info1" >
+               <input id="inoutratio" type="text"
+                      class="form-control"
+                      placeholder="in/out ratio"
+                      disabled>
+                <input id="onewayroundwayratio" type="text"
+                       class="form-control"
+                       placeholder="oneway/roundway ratio"
+                       disabled>
+            </div>
+          </div>
+          <!--All kinds of ratios to describe different staions-->
+          <div class="subdiv" id="indivStats2" hidden="hidden">
+            <div class="titleSelection" id="rideStats"><h5>Ratio Analysis</h4></div>
+            <div class="input-group" id="info1" >
+                 <input id="lat" type="text"
+                        class="form-control"
+                        placeholder="oneway/roundway ratio"
+                        disabled>
+                  <input id="lng" type="number"
+                        class="form-control"
+                        placeholder="oneway/roundway ratio"
+                        disabled>
+            </div>
+          </div>
+            </div>
+        </div>
+
+        <!--calculate routes from your location to any location-->
+        <div class="subdiv" id="route-page" style="padding:10px;" >
+          <div class="barTitle" style="height:80px;z-index:1001;">
+            <h3 style="color:antiquewhite; vertical-align:middle">Find the Route</h3>
+            <p style="color:white">Click an Indego to see what is going to happen.</>
+          </div>
+          <p id="route-direction" style="color:white;padding:10px">To find a route from your current location to a Indego bike station,
+            just click the station and you'll get the route!</p>
+            <br>
+          <p id="route-direction" style="color:white;padding:10px">To clear route, click "Clear". </p>
+          <div class="generateButton" id="generateButton-route">
+            <button class="btn btn-scondary" id="clear" style="left: 100px">Clear</button>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="map" class="map" style="width:100%;top:50px;">
+        <div id="time-window"></div>
+      </div>
+      <div class="legend" id="legend1" style="padding: 10px; color: white; display:none;" >
+        <p style="color: white; font-size:20px; padding: 10px;">Legend</p>
+        <svg height="48" width="180px">
+          <circle cx="90" cy="24" r="24" fill="#ffffcc" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Most Frequently Used</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="20" r="20" fill="#a1dab4" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Frequently Used</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="16" r="16" fill="#68bfa1" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">More than Average</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="12" r="12" fill="#2a9c9c" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Less than Average</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="8" r="8" fill="#02778e" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Lee Used</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="8" r="8" fill="#02778e" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Leaset Used</p>
+      </div>
+      <div class="legend" id="legend2" style="padding: 10px; color: white; display: none;" >
+        <p style="color: white; font-size:20px; padding: 10px;">Legend</p>
+        <svg height="48" width="180px">
+          <circle cx="90" cy="24" r="24" fill="orange" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seasonal Departure > 6400 </p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="20" r="20" fill="orange" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seasonal Departure > 5000 </p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="16" r="16" fill="orange" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seasonal Departure > 4000 </p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="12" r="12" fill="orange" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seasonal Departure > 3000 </p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="8" r="8" fill="orange" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seansonal Departure > 2000</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="8" r="8" fill="orange" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Else</p>
+      </div>
+      <div class="legend" id="legend3" style="padding: 10px; color: white; display:none;" >
+        <p style="color: white; font-size:20px; padding: 10px;">Legend</p>
+        <svg height="48" width="180px">
+          <circle cx="90" cy="24" r="24" fill="lightblue" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seasonal Arrival > 5000 </p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="20" r="20" fill="lightblue" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seasonal Arrival > 4000 </p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="16" r="16" fill="lightblue" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seasonal Arrival > 3000 </p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="12" r="12" fill="lightblue" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seasonal Arrival > 2000 </p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="8" r="8" fill="lightblue" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Seansonal Arrival > 1000</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="8" r="8" fill="lightblue" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Else</p>
+      </div>
+      <div class="legend" id="legend4" style="padding: 10px; color: white; display:none;" >
+        <p style="color: white; font-size:20px; padding: 10px;">Legend</p>
+        <svg height="48" width="180px">
+          <circle cx="90" cy="24" r="24" fill="#ffffcc" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Oneway Trip Ratio > 95%</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="20" r="20" fill="#a1dab4" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Oneway Trip Ratio > 90%</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="16" r="16" fill="#68bfa1" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Oneway Trip Ratio > 85%</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="12" r="12" fill="#2a9c9c" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Oneway Trip Ratio > 80%</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="8" r="8" fill="#02778e" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Oneway Trip Ratio > 70%</p>
+        <svg height="40" width="180px">
+          <circle cx="90" cy="8" r="8" fill="#02778e" />
+        </svg>
+        <p style="text-align:center;font-size:12px;">Else</p>
+      </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/decode.js"></script>
+    <script src="js/torque.full.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/themeMap.js">
+    </script>
+  </body>
+</html>

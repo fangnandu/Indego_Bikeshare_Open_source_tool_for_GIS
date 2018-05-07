@@ -1,0 +1,206 @@
+
+#intro > p:nth-child(1){
+  position: absolute;
+  left: 400px;
+  top: 100px;
+  font-size:30px;
+}
+
+#start{
+  position: absolute;
+  left: 300px;
+  top: 0px;
+}
+
+#source {
+  position: fixed;
+  font-size:15px;
+  font-weight: lighter;
+  color:rgba(135, 206, 235,0.7);
+  text-align: left;
+  margin-top:25px;
+  left: 300px;
+  top: 685px;
+}
+
+#intro > p:nth-child(2){
+  position: absolute;
+  padding: 100px;
+  top: 220px;
+  font-size:18px;
+  font-weight: lighter;
+  color:rgba(0, 191, 255,0.7);
+  text-align: left;
+}
+
+
+#slide1 {
+  position: absolute;
+  z-index: 10000;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,1);
+  color:deepskyblue;
+  text-align: center;
+
+}
+
+
+#time-window {
+    position: fixed;
+    right: 10px;
+    top: 60px;
+    z-index: 1000;
+    background-color: lightblue;
+    padding: 0px 10px 0px 10px;
+}
+
+
+
+.analytical1 {
+  position: absolute;
+  width: 100%;
+  top: 160px;
+  height: 530px;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.navbar {
+  height: 100px;
+  width: 100%;
+}
+.map {
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    height: 100%;
+    top: 0;
+    z-index: -1;
+}
+.legend {
+  position: fixed;
+  bottom:0px;
+  right: 0px;
+  width: 200px;
+  height: 600px;
+  background-color: black;
+  opacity: 0.7;
+  z-index: 2000;
+}
+.intsidebar {
+  z-index: 1000;
+  position: absolute;
+  left: 0px;
+  width: 320px;
+  top: 50px;
+  bottom: 0;
+  overflow-y: auto;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.subdiv > ul > li > a {
+  border-radius: 5px;
+  text-align:left;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  background-color: rgba(0,0,0,0.2);
+}
+
+.subdiv > ul > li > a:hover {
+  color:rgba(0,0,0,0.6);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.barTitle {
+  z-index: 1001;
+  background-color:rgba(0,0,0,0.8);
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top:10px;
+  padding-bottom: 12px;
+  vertical-align: middle;
+}
+
+
+.input-group .form-control {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    background-color: rgba(0,0,0,0);
+    border-style: none;
+    color:antiquewhite;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    font-weight: lighter;
+
+}
+
+.form-control.number {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: -10px;
+  color: deepskyblue;
+}
+.input-group{
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 5px;
+  padding:10px;
+  margin-top: 5px;
+}
+
+.subdiv {
+  box-sizing: border-box;
+}
+
+
+.subBar {
+  left:7px;
+  padding:25px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+
+.filter-choice {
+  position:relative;
+  display: inline-block;
+  border-radius: 10px;
+  height:100px;
+  width: 100px;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 5000;
+  text-align: center;
+  padding: 10px;
+  vertical-align:middle;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.filter-choice:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.filter-expand > ul > li {
+  margin-left: 35px;
+  margin-right: 45px;
+}
+
+.filter-expand > ul > li > a {
+  border-radius: 5px;
+  text-align:left;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  background-color: rgba(0,0,0,0.2);
+}
+
+.filter-expand> ul > li > a:hover {
+  color:rgba(0,0,0,0.6);
+  background-color: rgba(255, 255, 255, 0.8);
+}
